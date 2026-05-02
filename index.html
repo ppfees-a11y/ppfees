@@ -2,31 +2,55 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>PP Fees Calculator</title>
+  <title>PayPal Fee Calculator - Free & Instant</title>
+
   <style>
     body {
       font-family: Arial;
+      max-width: 700px;
+      margin: auto;
+      padding: 20px;
       text-align: center;
-      margin-top: 50px;
-      font-size: 20px;
     }
     input, button {
       font-size: 18px;
       padding: 10px;
       margin: 10px;
+      width: 80%;
+    }
+    h1 {
+      margin-top: 20px;
+    }
+    .box {
+      margin-top: 30px;
+      text-align: left;
     }
   </style>
 </head>
+
 <body>
 
-<h2>PayPal Fee Calculator</h2>
+<h1>PayPal Fee Calculator</h1>
+
+<p>Quickly calculate PayPal fees and your final amount after fees.</p>
 
 <input type="number" id="amount" placeholder="Enter amount">
-<br>
 
-<button onclick="calcFee()">Calculate</button>
+<button onclick="calcFee()">Calculate Fees</button>
 
-<p id="result"></p>
+<h3 id="result"></h3>
+
+<div class="box">
+<h2>How PayPal Fees Work</h2>
+<p>PayPal typically charges 2.9% + $0.30 per transaction. This calculator helps you estimate your fees instantly so you know exactly how much you’ll receive.</p>
+
+<h2>Why Use This Calculator?</h2>
+<ul>
+<li>Instant results</li>
+<li>No login required</li>
+<li>Accurate fee estimates</li>
+</ul>
+</div>
 
 <script>
 function calcFee() {
@@ -38,7 +62,7 @@ function calcFee() {
   var fee = (amt * 0.029 + 0.30).toFixed(2);
   var final = (amt - fee).toFixed(2);
   document.getElementById('result').innerHTML =
-    "Fee: $" + fee + "<br>Final Amount: $" + final;
+    "Fee: $" + fee + " | You Receive: $" + final;
 }
 </script>
 
