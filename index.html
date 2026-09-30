@@ -1,73 +1,162 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5287196493103465"
-     crossorigin="anonymous"></script>  <meta charset="UTF-8">
-  <title>PayPal Fee Calculator - Free & Instant</title>
-
-  <style>
-    body {
-      font-family: Arial;
-      max-width: 700px;
-      margin: auto;
-      padding: 20px;
-      text-align: center;
-    }
-    input, button {
-      font-size: 18px;
-      padding: 10px;
-      margin: 10px;
-      width: 80%;
-    }
-    h1 {
-      margin-top: 20px;
-    }
-    .box {
-      margin-top: 30px;
-      text-align: left;
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PayPal Fee Calculator for U.S. Sellers | PPFees</title>
+<meta name="description" content="Free PayPal fee calculator for U.S. sellers. Estimate PayPal Checkout, cards, Pay Later, QR code and international commercial transaction fees, plus the amount to charge to receive a target net amount.">
+<link rel="stylesheet" href="style.css">
 </head>
-<p>
-<a href="privacy.html">Privacy Policy</a> |
-<a href="terms.html">Terms</a>
-</p><body>
+<body>
+<header>
+<div class="wrap top">
+<a class="brand" href="index.html">PPFees</a>
+<nav><a href="#calculator">Calculator</a><a href="#guide">Fee Guide</a><a href="#examples">Examples</a><a href="#faq">FAQ</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav>
+</div>
+</header>
 
+<main class="wrap">
+<section class="hero">
+<p class="eyebrow">FREE U.S. SELLER TOOL</p>
 <h1>PayPal Fee Calculator</h1>
+<p class="lead">Estimate common PayPal transaction fees, what you keep after fees, or how much you may need to charge to receive a specific amount.</p>
+<p class="updated">Fee reference reviewed September 2026. Always confirm the rate that applies to your own PayPal account and transaction.</p>
+</section>
 
-<p>Quickly calculate PayPal fees and your final amount after fees.</p>
-
-<input type="number" id="amount" placeholder="Enter amount">
-
-<button onclick="calcFee()">Calculate Fees</button>
-
-<h3 id="result"></h3>
-
-<div class="box">
-<h2>How PayPal Fees Work</h2>
-<p>PayPal typically charges 2.9% + $0.30 per transaction. This calculator helps you estimate your fees instantly so you know exactly how much you’ll receive.</p>
-
-<h2>Why Use This Calculator?</h2>
-<ul>
-<li>Instant results</li>
-<li>No login required</li>
-<li>Accurate fee estimates</li>
-</ul>
+<section class="card" id="calculator">
+<h2>Calculate a PayPal Fee</h2>
+<div class="grid">
+<label>Transaction amount ($)
+<input id="amount" type="number" min="0" step="0.01" value="100">
+</label>
+<label>Common U.S. payment type
+<select id="feeType">
+<option value="3.49|0.49">PayPal Checkout / Guest Checkout — 3.49% + $0.49</option>
+<option value="2.99|0.49">Standard credit/debit card — 2.99% + $0.49</option>
+<option value="4.99|0.49">PayPal Pay Later — 4.99% + $0.49</option>
+<option value="2.29|0.09">QR code — 2.29% + $0.09</option>
+<option value="2.99|0">Goods & Services — 2.99%</option>
+<option value="custom">Custom rate</option>
+</select>
+</label>
+<label>Transaction
+<select id="international">
+<option value="0">U.S. domestic</option>
+<option value="1.5">International commercial (+1.50%)</option>
+</select>
+</label>
 </div>
 
-<script>
-function calcFee() {
-  var amt = parseFloat(document.getElementById('amount').value);
-  if (isNaN(amt)) {
-    document.getElementById('result').innerHTML = "Enter a valid amount";
-    return;
-  }
-  var fee = (amt * 0.029 + 0.30).toFixed(2);
-  var final = (amt - fee).toFixed(2);
-  document.getElementById('result').innerHTML =
-    "Fee: $" + fee + " | You Receive: $" + final;
-}
-</script>
+<div id="customBox" class="grid custom hidden">
+<label>Custom percentage (%)
+<input id="customPercent" type="number" min="0" step="0.01" value="3.49">
+</label>
+<label>Custom fixed fee ($)
+<input id="customFixed" type="number" min="0" step="0.01" value="0.49">
+</label>
+</div>
 
-</body>
-</html>
+<button id="calculate">Calculate Fee</button>
+<div class="results">
+<div><span>Estimated PayPal fee</span><strong id="fee">$0.00</strong></div>
+<div><span>You receive after fee</span><strong id="net">$0.00</strong></div>
+<div><span>Effective fee rate</span><strong id="effective">0.00%</strong></div>
+</div>
+
+<hr>
+<h2>Want to Receive a Specific Amount?</h2>
+<p>Enter the amount you want left after the selected fee. This reverse calculation estimates what you would need to charge.</p>
+<div class="reverse">
+<label>Desired amount after fees ($)
+<input id="desired" type="number" min="0" step="0.01" value="100">
+</label>
+<button id="reverseCalculate">Calculate Amount to Charge</button>
+</div>
+<div class="results two">
+<div><span>Estimated amount to charge</span><strong id="charge">$0.00</strong></div>
+<div><span>Estimated fee</span><strong id="reverseFee">$0.00</strong></div>
+</div>
+<p class="note">Estimates are for planning only. PayPal pricing can vary by product, account, currency, market, merchant arrangement, and transaction type.</p>
+</section>
+
+<section class="content" id="guide">
+<h2>Understanding PayPal Fees</h2>
+<p>PayPal fees are not a single universal percentage. For U.S. merchants, the cost can depend on how a customer pays and which PayPal product processes the transaction. A typical fee combines a percentage of the transaction with a fixed amount. Because of that fixed amount, the effective percentage cost is usually higher on small transactions than on large ones.</p>
+
+<h3>PayPal Checkout and Guest Checkout</h3>
+<p>For a common U.S. domestic commercial transaction using PayPal Checkout or PayPal Guest Checkout, PayPal's published merchant fee schedule lists 3.49% plus a fixed fee. For transactions received in U.S. dollars, the published fixed commercial-transaction fee is $0.49. PPFees includes that combination as a selectable estimate.</p>
+
+<h3>Credit and Debit Card Payments</h3>
+<p>PayPal's published U.S. merchant schedule distinguishes standard card payments from PayPal-branded checkout. Standard credit and debit card payments can therefore produce a different fee from a PayPal Checkout transaction even when the sale amount is identical.</p>
+
+<h3>International Commercial Transactions</h3>
+<p>International commercial transactions can carry an additional percentage-based fee on top of the applicable domestic rate. PPFees lets you add the published 1.50% international commercial surcharge to the selected base rate. Currency conversion and other charges may still apply and are not included here.</p>
+
+<h3>Why Reverse Fee Calculation Is Useful</h3>
+<p>Suppose you need to net a particular amount after processing costs. Simply adding the expected fee to your target is slightly inaccurate because the fee itself is calculated from the larger amount charged. The reverse calculator solves for the gross amount before the percentage and fixed fee are deducted.</p>
+
+<h3>Small Transactions and Fixed Fees</h3>
+<p>A fixed fee matters more on a small sale. For example, a $0.49 fixed component represents nearly one-half of one percent of a $100 transaction, but almost five percent of a $10 transaction before the percentage-based part is even considered. Sellers of low-priced items should pay particular attention to the effective fee rate.</p>
+</section>
+
+<section class="content" id="examples">
+<h2>PayPal Fee Examples</h2>
+<p>These examples use the common U.S. PayPal Checkout estimate of 3.49% + $0.49. They illustrate the math rather than guaranteeing what PayPal will charge a particular account.</p>
+<div class="tablewrap">
+<table>
+<thead><tr><th>Sale</th><th>Estimated fee</th><th>Estimated amount received</th></tr></thead>
+<tbody>
+<tr><td>$10.00</td><td>$0.84</td><td>$9.16</td></tr>
+<tr><td>$25.00</td><td>$1.36</td><td>$23.64</td></tr>
+<tr><td>$50.00</td><td>$2.24</td><td>$47.76</td></tr>
+<tr><td>$100.00</td><td>$3.98</td><td>$96.02</td></tr>
+<tr><td>$500.00</td><td>$17.94</td><td>$482.06</td></tr>
+<tr><td>$1,000.00</td><td>$35.39</td><td>$964.61</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2>How the Calculation Works</h2>
+<p>For a percentage-plus-fixed-fee transaction, the estimated fee equals the transaction amount multiplied by the percentage rate, plus the fixed fee. The estimated net amount is the transaction amount minus that fee. PPFees performs the arithmetic in your browser when you press the calculator button.</p>
+</section>
+
+<section class="content" id="faq">
+<h2>Frequently Asked Questions</h2>
+<h3>Is PPFees operated by PayPal?</h3>
+<p>No. PPFees is an independent educational calculator and is not PayPal, not endorsed by PayPal, and not a payment processor.</p>
+
+<h3>Are all PayPal fees 3.49% + $0.49?</h3>
+<p>No. PayPal publishes different rates for different payment products and transaction circumstances. That is why this calculator provides several choices instead of applying one rate to every transaction.</p>
+
+<h3>Does this calculator include currency conversion?</h3>
+<p>No. Currency conversion can involve separate pricing and depends on the currencies and transaction circumstances. This calculator focuses on the transaction-rate inputs shown in the tool.</p>
+
+<h3>Does the calculator send my numbers anywhere?</h3>
+<p>The fee calculations are performed in your browser. PPFees does not require an account or ask you to submit the transaction amounts to us.</p>
+
+<h3>Can I use a custom rate?</h3>
+<p>Yes. If your PayPal account or payment product uses a different percentage or fixed fee, choose Custom rate and enter those values.</p>
+
+<h3>Should I rely on PPFees for accounting or tax decisions?</h3>
+<p>No. PPFees is a convenience tool for estimates. For bookkeeping, tax reporting, contracts, or business decisions, use your actual PayPal transaction records and appropriate professional guidance.</p>
+
+<h3>Where can I verify current PayPal pricing?</h3>
+<p>Check PayPal's official U.S. merchant fee pages and the pricing shown for your own account before relying on an estimate.</p>
+</section>
+
+<section class="content">
+<h2>About PPFees</h2>
+<p>PPFees was created to make transaction-fee math quicker for U.S. sellers, freelancers, online businesses, and anyone comparing gross payments with expected net proceeds. The site focuses on transparent calculations: you choose the rate assumptions, see the estimated fee, and see what remains.</p>
+<p>Rates and payment products can change. We periodically review the public fee references used in our examples, but your actual PayPal account and transaction records are the controlling source for fees charged to you.</p>
+</section>
+</main>
+
+<footer>
+<div class="wrap">
+<p>PPFees is an independent calculator and is not affiliated with or endorsed by PayPal. PayPal is a trademark of PayPal, Inc.</p>
+<p><a href="index.html">Calculator</a> · <a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms of Use</a></p>
+<p>© <span id="year"></span> PPFees</p>
+</div>
+</footer>
+<script src="script.js"></script>
+</body></html>
